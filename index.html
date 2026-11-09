@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0d3657">
+<title>예봉초 통합 설계 연수</title>
+<meta name="description" content="2026 경기도교육청 찾아가는 교육과정-수업-평가 통합 설계 연수 · 남양주예봉초 2회차 자료">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230d3657%22/%3E%3Ctext x=%2216%22 y=%2222%22 font-size=%2216%22 text-anchor=%22middle%22 fill=%22%23ffc857%22 font-family=%22sans-serif%22 font-weight=%22700%22%3E10%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/p400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face { font-family: "Pretendard"; src: url("fonts/p400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("fonts/p600.woff2") format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Pretendard"; src: url("fonts/p800.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+@font-face { font-family: "IBM Plex Mono"; src: url("fonts/m500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+
+/* Layout: one mobile-first column on a cyanotype grid, matching the intro film; QR tiles open full-screen. Single dark look by choice. */
+:root {
+  --ground: #0d3657; --ground-2: #0a2d4a; --ground-3: #123f66;
+  --chalk: #e6f0f8; --chalk-dim: rgba(230, 240, 248, .72); --chalk-faint: rgba(230, 240, 248, .2);
+  --amber: #ffc857; --on-amber: #0b2238; --paper: #ffffff; --qr-ink: #0b2238;
+  --kr: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--ground); }
+body { margin: 0; background-color: var(--ground); color: var(--chalk); font-family: var(--kr); font-size: 16px; line-height: 1.55; word-break: keep-all;
+  background-image: linear-gradient(rgba(230,240,248,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(230,240,248,.06) 1px, transparent 1px);
+  background-size: 32px 32px; }
+.wrap { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 48px; display: flex; flex-direction: column; gap: 22px; }
+.eyebrow { margin: 0; font-size: 14px; font-weight: 600; color: var(--amber); }
+h1 { margin: 6px 0 0; font-size: clamp(26px, 6.4vw, 38px); font-weight: 800; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--amber); }
+h1 .nw, h1 em { white-space: nowrap; }
+.meta { margin: 10px 0 0; color: var(--chalk-dim); font-size: 15px; }
+.meta span + span::before { content: "·"; margin: 0 .5em; color: var(--chalk-faint); }
+.panel { border: 1px solid var(--chalk-faint); background: rgba(10, 45, 74, .72); }
+.sec-h { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; }
+.sec-h h2 { margin: 0; font-size: 18px; font-weight: 600; }
+.sec-h p { margin: 0; font-size: 13px; color: var(--chalk-dim); }
+video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 24px); aspect-ratio: 16 / 9; background: #072238; }
+.vcap { margin: 0; padding: 10px 14px; font-size: 13px; color: var(--chalk-dim); border-top: 1px solid var(--chalk-faint); }
+
+.links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.link { display: grid; grid-template-columns: auto 1fr auto; gap: 14px; align-items: center; padding: 14px; }
+.num { font-family: var(--mono); font-size: 13px; color: var(--amber); width: 26px; }
+.ltxt { min-width: 0; }
+.ltxt h3 { margin: 0; font-size: 18px; font-weight: 600; line-height: 1.3; }
+.ltxt p { margin: 2px 0 0; font-size: 14px; color: var(--chalk-dim); }
+.lact { display: flex; align-items: center; gap: 10px; }
+.btn { font: inherit; font-size: 15px; font-weight: 600; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--amber); background: var(--amber); color: var(--on-amber); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; white-space: nowrap; }
+.btn.ghost { background: transparent; color: var(--chalk); border-color: var(--chalk-faint); }
+.btn[aria-disabled="true"] { background: transparent; color: var(--chalk-dim); border: 1px dashed var(--chalk-faint); cursor: default; }
+.btn:focus-visible, .qrbtn:focus-visible, .x:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+.qrbtn { flex: none; width: 56px; height: 56px; padding: 4px; border: 0; border-radius: 4px; background: var(--paper); cursor: zoom-in; display: grid; place-items: center; }
+.qrbtn svg { width: 100%; height: 100%; display: block; }
+.qrbtn.off { background: transparent; border: 1px dashed var(--chalk-faint); cursor: default; }
+.qrsp { flex: none; width: 56px; height: 1px; }
+.btn[aria-busy="true"] { opacity: .7; cursor: progress; }
+@media (max-width: 480px) {
+  .link { grid-template-columns: 1fr auto; }
+  .num { display: none; }
+  .lact { flex-direction: row-reverse; }
+  .lact .btn { padding: 0 14px; }
+}
+@media (max-width: 400px) {
+  .link { grid-template-columns: 1fr; gap: 10px; }
+  .lact { flex-direction: row; justify-content: flex-start; }
+}
+
+.qrgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 12px; }
+.qtile { font: inherit; color: inherit; text-align: left; padding: 12px; display: flex; flex-direction: column; gap: 10px; cursor: zoom-in; border: 1px solid var(--chalk-faint); background: rgba(10, 45, 74, .72); }
+.qtile .qbox { background: var(--paper); padding: 8px; aspect-ratio: 1; display: grid; place-items: center; }
+.qtile .qbox svg { width: 100%; height: 100%; }
+.qtile b { font-size: 15px; font-weight: 600; }
+.qtile small { font-size: 12px; color: var(--chalk-dim); }
+.qtile[disabled] { cursor: default; opacity: .6; }
+.qtile[disabled] .qbox { background: transparent; border: 1px dashed var(--chalk-faint); color: var(--chalk-dim); font-size: 13px; text-align: center; padding: 12px; }
+
+/* short address */
+.short { margin: 14px 0 0; display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+.short .lab { font-size: 13px; color: var(--chalk-dim); }
+.short b { font-family: var(--kr); font-size: 20px; font-weight: 800; color: var(--amber); letter-spacing: .01em; user-select: all; }
+.short .btn { min-height: 36px; padding: 0 14px; font-size: 14px; }
+.short .done { font-size: 13px; color: var(--chalk-dim); }
+.tools { display: flex; flex-direction: column; gap: 12px; }
+/* teacher tool card */
+.tool { padding: 18px 18px 16px; display: flex; flex-direction: column; gap: 12px; }
+.tool .tag { margin: 0; font-size: 13px; font-weight: 600; color: var(--amber); }
+.tool h3 { margin: 0; font-size: 20px; font-weight: 800; line-height: 1.3; }
+.tool .tdesc { margin: 0; font-size: 15px; color: var(--chalk); }
+.tsteps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; counter-reset: st; }
+.tsteps li { counter-increment: st; display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; font-size: 14.5px; color: var(--chalk-dim); }
+.tsteps li::before { content: counter(st); font-family: var(--mono); font-size: 13px; color: var(--on-amber); background: var(--amber); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; margin-top: 1px; }
+.tsteps b { color: var(--chalk); font-weight: 600; margin-right: .35em; }
+.tool .lact { justify-content: flex-start; }
+.tool .tnote { margin: 0; font-size: 13px; color: var(--chalk-dim); border-top: 1px solid var(--chalk-faint); padding-top: 10px; }
+
+/* full-screen QR */
+.modal { position: fixed; inset: 0; z-index: 50; background: rgba(4, 18, 32, .92); display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.sheet { background: var(--paper); color: var(--qr-ink); width: min(92vw, 78vh, 640px); padding: 22px 22px 18px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; position: relative; }
+.sheet h2 { margin: 0; font-size: clamp(20px, 4vw, 30px); font-weight: 800; line-height: 1.25; padding: 0 36px; }
+.sheet .big { width: 100%; aspect-ratio: 1; }
+.sheet .big svg { width: 100%; height: 100%; display: block; }
+.sheet .url { margin: 0; font-family: var(--mono); font-size: 13px; color: #3b4a58; word-break: break-all; user-select: all; }
+.x { position: absolute; top: 10px; right: 10px; width: 44px; height: 44px; border: 0; background: transparent; font: inherit; font-size: 26px; line-height: 1; color: var(--qr-ink); cursor: pointer; }
+
+/* slide viewer */
+.viewer { position: fixed; inset: 0; z-index: 40; background: #061a2b; display: flex; flex-direction: column; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.vbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid var(--chalk-faint); }
+.vbar b { font-size: 15px; font-weight: 600; }
+.vbar span { font-family: var(--mono); font-size: 13px; color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.track { flex: 1; min-height: 0; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.track::-webkit-scrollbar { display: none; }
+.slide { flex: 0 0 100%; scroll-snap-align: center; position: relative; }
+.slide img { position: absolute; top: 10px; bottom: 10px; left: max(12px, env(safe-area-inset-left, 0px)); right: max(12px, env(safe-area-inset-right, 0px)); width: calc(100% - 2 * max(12px, env(safe-area-inset-left, 0px))); height: calc(100% - 20px); max-width: none; object-fit: contain; }
+.vnav { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; padding: 10px max(16px, env(safe-area-inset-right, 0px)) 6px max(16px, env(safe-area-inset-left, 0px)); }
+.vnav .btn { padding: 0 16px; }
+.vnav .act { border-color: var(--amber); color: var(--amber); }
+.vnav .act.on { background: var(--amber); color: var(--on-amber); }
+@media (max-width: 400px) { .vnav .btn { padding: 0 12px; } .vnav .wide { display: none; } }
+.vhint { margin: 0 0 12px; text-align: center; font-size: 12px; color: var(--chalk-dim); }
+@media (orientation: landscape) and (max-height: 500px) { .vhint { display: none; } .vnav { padding-block: 4px 6px; } .vbar { padding-block: 4px; } .vbar .btn, .vnav .btn { min-height: 36px; font-size: 14px; } }
+
+.foot { margin: 0; font-size: 13px; color: var(--chalk-dim); }
+@media (prefers-reduced-motion: no-preference) { .track { scroll-behavior: smooth; } }
+
+.wrap { gap: 26px; }
+/* ── 오늘의 길: 인포그래픽 ── */
+.ig { padding: 16px; display: flex; flex-direction: column; gap: 20px; }
+.igh { margin: 0 0 10px; display: flex; align-items: baseline; gap: 8px; font-size: 14px; font-weight: 600; }
+.igh i { font-style: normal; font-family: var(--mono); font-size: 12px; color: var(--amber); }
+.igh small { font-size: 12.5px; font-weight: 400; color: var(--chalk-dim); }
+:root { --z1: #a8dbe3; --z2: #7fc6d3; --z3: #59afc1; --z4: #3e97ab; --zo: #c6d6e2; --zb: rgba(230,240,248,.28); }
+.tl { display: grid; grid-template-columns: 10fr 40fr 5fr 20fr 30fr 15fr; gap: 3px; height: 16px; }
+.tl i { display: block; border-radius: 2px; }
+.tl .b { background: repeating-linear-gradient(135deg, var(--zb) 0 4px, transparent 4px 8px); border: 1px solid var(--zb); }
+.tends { display: flex; justify-content: space-between; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--chalk-dim); }
+.tlist { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 12px; }
+.tlist li { display: grid; grid-template-columns: 10px 1fr; gap: 8px; align-items: start; }
+.tlist li::before { content: ""; width: 10px; height: 10px; margin-top: 5px; border-radius: 2px; background: var(--c); }
+.tlist b { display: block; font-size: 14px; font-weight: 600; line-height: 1.35; }
+.tlist span { font-size: 12.5px; color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.zones { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.zone { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 12px 12px 14px; border: 1px solid var(--chalk-faint); border-top: 4px solid var(--zc); background: rgba(6, 26, 43, .55); }
+.zone:not(:last-child)::after { content: ""; position: absolute; top: 22px; right: -12px; width: 10px; height: 10px; border-top: 2px solid var(--amber); border-right: 2px solid var(--amber); transform: rotate(45deg); }
+.zk { margin: 0; font-size: 12.5px; font-weight: 600; color: var(--zc); }
+.zone h4 { margin: -6px 0 0; font-size: 16.5px; font-weight: 800; line-height: 1.3; }
+.st { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; flex: 1; }
+.st li { display: grid; grid-template-columns: 24px 1fr; gap: 8px; align-items: center; font-size: 13.5px; line-height: 1.35; color: var(--chalk-dim); }
+.st li b { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--zc); color: var(--on-amber); font-family: var(--mono); font-size: 12.5px; font-weight: 500; }
+.pr { display: flex; flex-wrap: wrap; gap: 6px; }
+.pr span { padding: 2px 10px; border-radius: 999px; font-size: 12.5px; font-weight: 600; color: var(--on-amber); background: var(--amber); white-space: nowrap; }
+.pr span.case { color: var(--chalk); background: transparent; border: 1px dashed var(--chalk-faint); font-weight: 400; }
+.beats { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.beat { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; padding: 12px 8px; border: 1px solid var(--chalk-faint); }
+.beat:not(:last-child)::after { content: ""; position: absolute; top: 50%; right: -12px; width: 9px; height: 9px; margin-top: -5px; border-top: 2px solid var(--chalk-faint); border-right: 2px solid var(--chalk-faint); transform: rotate(45deg); }
+.beat svg { width: 30px; height: 30px; stroke: var(--amber); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.beat b { font-size: 15px; font-weight: 600; }
+.beat span { font-size: 12.5px; line-height: 1.4; color: var(--chalk-dim); }
+.bring { margin: 0; padding-top: 14px; font-size: 14px; color: var(--chalk-dim); border-top: 1px solid var(--chalk-faint); }
+.bring b { color: var(--chalk); font-weight: 600; }
+@media (max-width: 640px) {
+  .zones { grid-template-columns: 1fr 1fr; }
+  .zone:nth-child(2)::after { display: none; }
+  .tlist { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 460px) {
+  .beats { grid-template-columns: 1fr 1fr; }
+  .beat:nth-child(2)::after { display: none; }
+}
+@media (max-width: 360px) { .zones { grid-template-columns: 1fr; } .zone::after { display: none; } }
+
+/* ── 교안 미리보기 ── */
+.dk { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.chaps { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+.chaps::-webkit-scrollbar { display: none; }
+.chip { flex: none; font: inherit; font-size: 13px; font-weight: 600; min-height: 34px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--chalk-faint); background: transparent; color: var(--chalk-dim); cursor: pointer; white-space: nowrap; }
+.chip i { font-style: normal; font-family: var(--mono); font-size: 11.5px; color: var(--amber); margin-right: 5px; }
+.chip[aria-current="true"] { color: var(--on-amber); background: var(--amber); border-color: var(--amber); }
+.chip[aria-current="true"] i { color: var(--on-amber); }
+.pv { position: relative; display: block; width: 100%; padding: 0; border: 0; background: #061a2b; cursor: zoom-in; aspect-ratio: 1281 / 720; }
+.pv img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.pv .zoom { position: absolute; right: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: rgba(6, 26, 43, .86); color: var(--chalk); font-size: 13px; font-weight: 600; }
+.pv .zoom svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 2; }
+.pv:hover .zoom, .pv:focus-visible .zoom { background: var(--amber); color: var(--on-amber); }
+.pv:focus-visible, .chip:focus-visible, .th:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.pvbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.pvbar .btn { min-height: 38px; padding: 0 14px; font-size: 14px; }
+.pvbar span { font-family: var(--mono); font-size: 13px; color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
+.thumbs { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding: 2px 2px 8px; scrollbar-color: var(--chalk-faint) transparent; }
+.th { flex: 0 0 132px; position: relative; padding: 0; border: 2px solid transparent; background: #061a2b; cursor: pointer; scroll-snap-align: start; aspect-ratio: 384 / 216; }
+.th img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: .78; }
+.th span { position: absolute; left: 4px; bottom: 3px; font-family: var(--mono); font-size: 11px; color: #fff; background: rgba(6,26,43,.8); padding: 0 4px; }
+.th[aria-current="true"] { border-color: var(--amber); }
+.th[aria-current="true"] img, .th:hover img { opacity: 1; }
+.dkfoot { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; padding-top: 12px; border-top: 1px solid var(--chalk-faint); }
+.dkfoot span { font-size: 13px; color: var(--chalk-dim); }
+@media (max-width: 480px) { .th { flex-basis: 108px; } }
+
+/* 실습 자료 */
+.mats { display: flex; flex-direction: column; gap: 12px; }
+.mgroup h3 { margin: 0; padding: 12px 14px 10px; font-size: 14px; font-weight: 600; color: var(--amber); border-bottom: 1px solid var(--chalk-faint); }
+.mlist { list-style: none; margin: 0; padding: 0; }
+.mlist li { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px 14px; border-top: 1px solid var(--chalk-faint); }
+.mlist li:first-child { border-top: 0; }
+.mlist .mt { min-width: 0; }
+.mlist h4 { margin: 0; font-size: 16px; font-weight: 600; line-height: 1.35; }
+.mlist p { margin: 2px 0 0; font-size: 13.5px; color: var(--chalk-dim); }
+.mlist .btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.mbtns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.btn.hw { background: transparent; color: var(--amber); }
+.btn.hw::before { content: ""; width: 14px; height: 14px; margin-right: 6px; background: currentColor; -webkit-mask: var(--dl) center / contain no-repeat; mask: var(--dl) center / contain no-repeat; }
+:root { --dl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 10l5 5 5-5M5 20h14'/%3E%3C/svg%3E"); }
+.viewer .vbar a.btn { min-height: 36px; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">2026 찾아가는 통합 설계 연수 · 예봉초 2회차</p>
+    <h1><span class="nw">교육과정-수업-평가</span> <em>통합 설계</em> <span class="nw">10단계 실습</span></h1>
+    <p class="meta"><span>2026. 11. 11. 수요일 14:30~16:30</span><span>남양주예봉초등학교</span><span>강사 김영호</span></p>
+  </header>
+
+  <section aria-labelledby="h-path">
+    <div class="sec-h"><h2 id="h-path">오늘의 길</h2><p>내 단원으로 10단계를 걸어 봅니다</p></div>
+    <div class="panel ig">
+      <div>
+        <p class="igh"><i>A</i>두 시간의 흐름 <small>시간은 대략이에요</small></p>
+        <div class="tl" role="img" aria-label="14시 30분부터 16시 30분까지: 여는 장 10분, 영역 1 40분, 쉬는 시간 5분, 영역 2 20분, 영역 3 30분, 10단계와 나눔 15분">
+          <i style="background:var(--zo)"></i><i style="background:var(--z1)"></i><i class="b"></i><i style="background:var(--z2)"></i><i style="background:var(--z3)"></i><i style="background:var(--amber)"></i>
+        </div>
+        <div class="tends"><span>14:30</span><span>16:30</span></div>
+        <ol class="tlist">
+          <li style="--c:var(--zo)"><div><b>여는 장</b><span>14:30 · 10분</span></div></li>
+          <li style="--c:var(--z1)"><div><b>영역 1 · 1~4단계</b><span>14:40 · 40분 · 실습 2번</span></div></li>
+          <li style="--c:var(--zb)"><div><b>쉬는 시간</b><span>15:20 · 5분</span></div></li>
+          <li style="--c:var(--z2)"><div><b>영역 2 · 5~6단계</b><span>15:25 · 20분 · 실습 1번</span></div></li>
+          <li style="--c:var(--z3)"><div><b>영역 3 · 7~9단계</b><span>15:45 · 30분 · 실습 1번</span></div></li>
+          <li style="--c:var(--amber)"><div><b>10단계 · 학년군 나눔</b><span>16:15 · 15분</span></div></li>
+        </ol>
+      </div>
+
+      <div>
+        <p class="igh"><i>B</i>10단계 지도 <small>노란 표시가 오늘 직접 써 보는 단계</small></p>
+        <ol class="zones">
+          <li class="zone" style="--zc:var(--z1)"><p class="zk">영역 1</p><h4>목적지를 세우다</h4>
+            <ol class="st"><li><b>1</b>무엇을 가르칠까</li><li><b>2</b>왜 가르칠까</li><li><b>3</b>기대하는 학습 결과</li><li><b>4</b>배움의 증거</li></ol>
+            <div class="pr"><span>실습 ① 1·2단계</span><span>실습 ② 3·4단계</span></div></li>
+          <li class="zone" style="--zc:var(--z2)"><p class="zk">영역 2</p><h4>배움의 흐름을 설계하다</h4>
+            <ol class="st"><li><b>5</b>필요한 배움 펼치고 잇기</li><li><b>6</b>배움의 덩어리와 정합성</li></ol>
+            <div class="pr"><span>실습 ③ 5·6단계</span></div></li>
+          <li class="zone" style="--zc:var(--z3)"><p class="zk">영역 3</p><h4>수업과 평가를 설계하다</h4>
+            <ol class="st"><li><b>7</b>징검다리 · 전이 평가</li><li><b>8</b>차시 설계 · 탐구 질문</li><li><b>9</b>학습자 안내서</li></ol>
+            <div class="pr"><span>실습 ④ 7단계</span><span class="case">8·9단계는 사례로</span></div></li>
+          <li class="zone" style="--zc:var(--z4)"><p class="zk">영역 4</p><h4>실행하고 성찰하다</h4>
+            <ol class="st"><li><b>10</b>근거로 성찰하고 환류</li></ol>
+            <div class="pr"><span class="case">사례로 살펴보기</span></div></li>
+        </ol>
+      </div>
+
+      <div>
+        <p class="igh"><i>C</i>단계마다 네 박자</p>
+        <ol class="beats">
+          <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><b>설명</b><span>이 단계에서 할 일과 내 안의 질문</span></li>
+          <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><b>사례</b><span>5학년 사회 · 2학년 국어</span></li>
+          <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/></svg><b>실습</b><span>학년군 모둠이 양식에 직접</span></li>
+          <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg><b>점검</b><span>짝 · 모둠이 점검 질문으로</span></li>
+        </ol>
+      </div>
+      <p class="bring"><b>준비해 주세요</b> · 함께 설계할 단원 하나(교과서 · 지도서), 아래 실습 양식(한글)</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-links">
+    <div class="sec-h"><h2 id="h-links">오늘의 링크</h2><p>QR을 누르면 크게 보여요</p></div>
+    <ul class="links" id="links"></ul>
+  </section>
+
+  <section aria-labelledby="h-deck">
+    <div class="sec-h"><h2 id="h-deck">교안 미리보기</h2><p>화면을 누르면 크게 보여요</p></div>
+    <div class="panel dk">
+      <div class="chaps" id="chaps" aria-label="장으로 바로 가기"></div>
+      <button type="button" class="pv" id="pv" aria-label="교안 1쪽 크게 보기"><img id="pvImg" src="slides/s-01.jpg" width="1281" height="720" alt="교안 1쪽"><span class="zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg>크게 보기</span></button>
+      <div class="pvbar"><button type="button" class="btn ghost" id="pvPrev">이전</button><span id="pvCount">1 / 78</span><button type="button" class="btn ghost" id="pvNext">다음</button></div>
+      <div class="thumbs" id="thumbs" aria-label="교안 쪽 목록"></div>
+      <div class="dkfoot"><a class="btn" id="deckPdf" href="#">교안 PDF 내려받기</a><span>78쪽 · 약 4MB · 인쇄하거나 보관하기</span></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-mats">
+    <div class="sec-h"><h2 id="h-mats">실습 자료</h2><p>누르면 바로 내려받아요</p></div>
+    <div class="mats" id="mats"></div>
+  </section>
+
+  <section aria-labelledby="h-tool">
+    <div class="sec-h"><h2 id="h-tool">함께 쓰면 좋은 도구</h2><p>원하시는 분만 써 보세요</p></div>
+    <div class="tools" id="tools"></div>
+  </section>
+
+  <section aria-labelledby="h-qr">
+    <div class="sec-h"><h2 id="h-qr">QR 크게 띄우기</h2><p>강의 화면에 띄우기</p></div>
+    <div class="qrgrid" id="qrgrid"></div>
+  </section>
+
+  <p class="foot">한글(.hwpx) 파일은 누르면 바로 내려받아집니다. 한글에서 열어 그대로 고쳐 쓰면 됩니다.</p>
+</div>
+
+<div class="modal" id="qrModal" hidden role="dialog" aria-modal="true" aria-labelledby="qrTitle">
+  <div class="sheet">
+    <button type="button" class="x" id="qrClose" aria-label="닫기">×</button>
+    <h2 id="qrTitle"></h2>
+    <div class="big" id="qrBig"></div>
+    <p class="url" id="qrUrl"></p>
+  </div>
+</div>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="교안 크게 보기">
+  <div class="vbar"><b>교안 · 2회차 3~4차시</b><span id="vcount">1 / 78</span><button type="button" class="btn ghost" id="vclose">닫기</button></div>
+  <div class="track" id="track"></div>
+  <div class="vnav"><button type="button" class="btn ghost" id="vprev">이전</button><a class="btn ghost act" id="vpad" target="_blank" rel="noopener">패들렛</a><a class="btn ghost act" id="vsur" target="_blank" rel="noopener"><span class="wide">만족도&nbsp;</span>조사</a><button type="button" class="btn ghost" id="vnext">다음</button></div>
+  <p class="vhint">밀어서 넘기거나 ← → 키를 누르세요. 휴대폰은 가로로 돌리면 크게 보입니다.</p>
+</div>
+
+<script src="js/qrcode.js"></script>
+<script>
+(() => {
+  const SITE = "https://slt40900-eng.github.io/yebong-design-2026/";
+  const SLIDES = 78;
+  const LINKS = {"padlet": "https://padlet.com/slt40900/padlet-s0258lz8ni30gmwc948w", "survey": "https://docs.google.com/forms/d/e/1FAIpQLScWhUmcQonBxzBsIYMGpMKlG6xlQyS7yGuxpsrY0lGJtrIZig/viewform", "ncic": "https://www.ncic.go.kr/"};
+  const FILES = {"form": {"path": "files/form-0628.hwpx", "name": "교육과정-수업-평가 통합설계 실습(양식)(0628).hwpx"}, "kor10h": {"path": "files/kor-10steps.hwpx", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).hwpx"}, "tg10h": {"path": "files/tg-10steps.hwpx", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).hwpx"}, "pdf": {"path": "files/yebong-3-4-deck.pdf", "name": "예봉초 2회차(3-4차시) 통합설계 실습 연수안_김영호.pdf"}, "kor10": {"path": "files/kor-10steps.pdf", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).pdf"}, "kortr": {"path": "files/kor-transfer.pdf", "name": "국어_전이를 위한 평가(GRASPS·논술형 수행평가지).pdf"}, "korjg": {"path": "files/kor-steppingstone.pdf", "name": "국어_징검다리 평가 예시(학생 결과물).pdf"}, "tg10": {"path": "files/tg-10steps.pdf", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).pdf"}, "tgtr": {"path": "files/tg-transfer.pdf", "name": "통합교과_전이를 위한 평가(GRASPS·논술형 평가).pdf"}, "annae": {"path": "files/gg-annae.pdf", "name": "초등 교육과정-수업-평가 통합 설계 안내서.pdf"}, "kwguide": {"path": "files/gg-keyword-guide.pdf", "name": "핵심어 핵심문장 도출 가이드(배포).pdf"}, "brick": {"path": "files/gg-thinking-brick.pdf", "name": "쌓고 연결하는 교실 속 사고 설계 도구 사고 블록_사고 브릭.pdf"}, "jaryo": {"path": "files/gg-inquiry-question.pdf", "name": "2025 초등 깊이있는 수업을 위한 질문기반 탐구수업 자료집.pdf"}};
+  const CHAPS = [[1, '', '표지'], [4, '00', '여는 장'], [10, '01', '목적지를 세우다'], [34, '02', '배움의 흐름'], [45, '03', '수업과 평가'], [68, '04', '실행과 성찰'], [72, '05', '학년군 나눔']];
+  const ACT = { padlet: [73], survey: [77] };
+  const MATS = [
+    { group: '실습 양식', items: [
+      { title: '통합 설계 실습 양식(0628)', sub: '한글(.hwpx) · 오늘 채울 10단계 양식, 바로 고쳐 쓸 수 있어요', btns: [{ file: 'form', label: '한글', hw: true }] },
+    ] },
+    { group: '완성 예시 ① 국어 · 2학년 「6. 자신의 생각을 표현해요」', items: [
+      { title: '10단계 완성 예시', sub: 'PDF 18쪽 · 한글(.hwpx) · 1~10단계를 모두 채운 설계안', btns: [{ file: 'kor10', label: 'PDF' }, { file: 'kor10h', label: '한글', hw: true }] },
+      { title: '전이를 위한 평가', sub: 'PDF 3쪽 · 3.2MB · GRASPS + 논술형 수행평가지', btns: [{ file: 'kortr', label: 'PDF' }] },
+      { title: '징검다리 평가 예시', sub: 'PDF 2쪽 · 1.5MB · 평가 과제 · 루브릭 · 학생 결과물', btns: [{ file: 'korjg', label: 'PDF' }] },
+    ] },
+    { group: '완성 예시 ② 통합교과 · 2학년 「질문으로 걷는 우리 마을」', items: [
+      { title: '10단계 완성 예시', sub: 'PDF 22쪽 · 한글(.hwpx) · 징검다리 평가 1~3과 루브릭 포함', btns: [{ file: 'tg10', label: 'PDF' }, { file: 'tg10h', label: '한글', hw: true }] },
+      { title: '전이를 위한 평가', sub: 'PDF 6쪽 · 0.8MB · GRASPS + 논술형 평가(문항 · 예시 답안 · 채점 기준표)', btns: [{ file: 'tgtr', label: 'PDF' }] },
+    ] },
+    { group: '경기도교육청 장학자료', items: [
+      { title: '초등 교육과정-수업-평가 통합 설계 안내서', sub: 'PDF 59쪽 · 7.2MB · 10단계 전체 안내', btns: [{ file: 'annae', label: '내려받기' }] },
+      { title: '핵심어 · 핵심 문장 도출 가이드', sub: 'PDF 44쪽 · 1.6MB · 1단계', btns: [{ file: 'kwguide', label: '내려받기' }] },
+      { title: '사고 블록 & 사고 브릭', sub: 'PDF 80쪽 · 8.9MB · 7단계 루브릭 · 8단계 차시 설계', btns: [{ file: 'brick', label: '내려받기' }] },
+      { title: '질문기반 탐구수업 자료집', sub: 'PDF 72쪽 · 8.4MB · 핵심 질문 · 탐구 질문', btns: [{ file: 'jaryo', label: '내려받기' }] },
+    ] },
+  ];
+  const TOOLS = [
+    { tag: '강사가 만든 웹앱', title: '이음 — 초등 통합설계 10단계', qr: '이음 · 통합설계 10단계', url: 'https://ieum-design-studio.netlify.app/',
+      desc: '교육과정-수업-평가 통합 설계 10단계를 오늘 연수의 흐름 그대로 따라가며 작성하는 웹앱입니다. AI 초안과 AI 다듬기의 도움을 받아 내 단원의 설계안을 완성할 수 있습니다.',
+      steps: [['시작하기', '학년·교과·단원명과 차시 수를 넣고, 핵심 아이디어·내용 요소·성취기준을 골라요.'], ['작성하기', '10단계마다 AI 초안을 받아 보고, AI 다듬기로 고치며 내 판단을 기록해요.'], ['내려받기', '완성한 설계안을 도교육청 통합 설계 양식에 맞춘 한글(.hwpx) 파일로 저장해 출력해요.']],
+      note: '작성 내용은 지금 쓰는 기기의 브라우저에 자동으로 저장됩니다. 이어 쓸 때는 같은 기기에서 열어 주세요.' },
+    { tag: '강사가 만든 웹앱', title: '차시별 사고루틴·질문기법 추천', qr: '사고루틴·질문기법 추천 웹앱', url: 'https://script.google.com/macros/s/AKfycbw-BHfx-XXEJ32OGyPyiyVtpvjRHJKR9QdAZMjip2ilOaQLlWHQvqK_sGVP3AzTEtW9/exec',
+      desc: '8단계 차시 흐름을 짤 때, 어떤 사고 루틴과 질문 기법을 쓰면 좋을지 차시별로 골라 주는 웹앱입니다. 경기도교육청 장학자료와 하버드 Project Zero 등 검증된 자료를 바탕으로 AI가 추천합니다.',
+      steps: [['올리기', '단원 설계안 PDF나 한글(HWPX) 파일을 올리거나, 차시 계획을 한 줄씩 적어요.'], ['추천받기', '차시마다 알맞은 사고 루틴과 질문 기법을 진행 방법, 출처와 함께 보여 줘요.'], ['내려받기', '한글(.hwpx)이나 이미지(.png)로 저장하거나 텍스트로 복사해요.']],
+      note: '추천을 만드는 데 1~2분쯤 걸립니다. 처음 열면 ‘Google Apps Script 사용자가 만들었다’는 안내 띠가 보일 수 있어요.' },
+  ];
+  const $ = (s) => document.querySelector(s);
+  const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+  const pad = (i) => String(i).padStart(2, '0');
+  function fileLink(key, label, cls) {
+    const f = FILES[key];
+    const a = el('a', cls || 'btn', label); a.href = f.path; a.download = f.name; return a;
+  }
+
+  // ---------- QR ----------
+  function qrSvg(text) {
+    if (!text || typeof qrcode !== 'function') return null;
+    try {
+      const q = qrcode(0, 'M'); q.addData(text); q.make();
+      const n = q.getModuleCount(); let d = '';
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c} ${r}h1v1h-1z`;
+      const ns = 'http://www.w3.org/2000/svg';
+      const svg = document.createElementNS(ns, 'svg');
+      svg.setAttribute('viewBox', `-2 -2 ${n + 4} ${n + 4}`); svg.setAttribute('shape-rendering', 'crispEdges'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'QR 코드');
+      const bg = document.createElementNS(ns, 'rect'); bg.setAttribute('x', -2); bg.setAttribute('y', -2); bg.setAttribute('width', n + 4); bg.setAttribute('height', n + 4); bg.setAttribute('fill', '#ffffff');
+      const p = document.createElementNS(ns, 'path'); p.setAttribute('d', d); p.setAttribute('fill', '#0b2238');
+      svg.append(bg, p); return svg;
+    } catch (_) { return null; }
+  }
+  const modal = $('#qrModal');
+  let lastFocus = null;
+  function openQR(title, url) {
+    const svg = qrSvg(url);
+    $('#qrTitle').textContent = title;
+    const big = $('#qrBig'); big.replaceChildren();
+    if (svg) big.append(svg); else big.append(el('p', '', 'QR을 만들지 못했습니다. 아래 주소를 직접 입력해 주세요.'));
+    $('#qrUrl').textContent = url.replace(/^https:\/\//, '');
+    lastFocus = document.activeElement; modal.hidden = false; $('#qrClose').focus();
+  }
+  function closeQR() { modal.hidden = true; if (lastFocus) lastFocus.focus(); }
+  $('#qrClose').addEventListener('click', closeQR);
+  modal.addEventListener('click', (e) => { if (e.target === modal) closeQR(); });
+  function qrButton(title, url) {
+    const q = el('button', 'qrbtn'); q.type = 'button';
+    const svg = qrSvg(url);
+    if (svg) { q.append(svg); q.setAttribute('aria-label', title + ' QR 크게 보기'); q.addEventListener('click', () => openQR(title, url)); }
+    else { q.classList.add('off'); q.disabled = true; q.setAttribute('aria-label', 'QR 준비 중'); }
+    return q;
+  }
+
+  // ---------- 오늘의 링크 ----------
+  const ITEMS = [
+    { title: '실습 양식 내려받기', sub: '한글(.hwpx) · 누르면 바로 받아 고쳐 쓰기', file: 'form', cta: '받기' },
+    { title: '교육과정 원문 찾기', sub: '국가교육과정정보센터(NCIC) · 성취기준 · 핵심 아이디어 원문', url: LINKS.ncic, cta: '열기' },
+    { title: '학년군 설계 나눔', sub: '패들렛 · 한 줄 올리고 댓글 하나', url: LINKS.padlet, cta: '열기' },
+    { title: '연수 만족도 조사', sub: '연수를 마치며 2~3분', url: LINKS.survey, cta: '응답' },
+  ];
+  function renderLinks() {
+    const ul = $('#links');
+    ITEMS.forEach((it, i) => {
+      const li = el('li', 'panel link');
+      li.append(el('span', 'num', pad(i + 1)));
+      const txt = el('div', 'ltxt'); txt.append(el('h3', '', it.title), el('p', '', it.sub));
+      const act = el('div', 'lact');
+      if (it.file) { act.append(fileLink(it.file, it.cta), Object.assign(el('span', 'qrsp'), { ariaHidden: 'true' })); }
+      else { const a = el('a', 'btn', it.cta); a.href = it.url; a.target = '_blank'; a.rel = 'noopener'; act.append(a, qrButton(it.title, it.url)); }
+      li.append(txt, act); ul.append(li);
+    });
+  }
+  function renderMats() {
+    const box = $('#mats');
+    MATS.forEach((g) => {
+      const sec = el('div', 'panel mgroup'); const ul = el('ul', 'mlist');
+      g.items.forEach((it) => {
+        const li = el('li'); const t = el('div', 'mt'); t.append(el('h4', '', it.title), el('p', '', it.sub));
+        const bx = el('div', 'mbtns');
+        it.btns.forEach((o) => bx.append(fileLink(o.file, o.label, o.hw ? 'btn hw' : 'btn')));
+        li.append(t, bx); ul.append(li);
+      });
+      sec.append(el('h3', '', g.group), ul); box.append(sec);
+    });
+  }
+  function renderTools() {
+    const box = $('#tools');
+    TOOLS.forEach((t) => {
+      const art = el('article', 'panel tool');
+      const ol = el('ol', 'tsteps');
+      t.steps.forEach(([k, v]) => { const li = el('li'); const sp = el('span'); sp.append(el('b', '', k), document.createTextNode(v)); li.append(sp); ol.append(li); });
+      const act = el('div', 'lact'); const a = el('a', 'btn', '써 보기'); a.href = t.url; a.target = '_blank'; a.rel = 'noopener';
+      act.append(a, qrButton(t.qr, t.url));
+      art.append(el('p', 'tag', t.tag), el('h3', '', t.title), el('p', 'tdesc', t.desc), ol, act, el('p', 'tnote', t.note));
+      box.append(art);
+    });
+  }
+  function renderQRs() {
+    const grid = $('#qrgrid');
+    [{ title: '이 페이지', sub: SITE.replace(/^https:\/\//, ''), url: SITE },
+     { title: '학년군 설계 나눔', sub: '패들렛', url: LINKS.padlet },
+     { title: '연수 만족도 조사', sub: '구글 설문', url: LINKS.survey },
+     { title: '교육과정 원문 찾기', sub: 'NCIC', url: LINKS.ncic },
+     { title: '이음 · 통합설계 10단계', sub: 'AI와 함께 10단계 설계안 작성', url: TOOLS[0].url },
+     { title: '사고루틴 추천 웹앱', sub: '차시별 사고루틴·질문기법', url: TOOLS[1].url }].forEach((t) => {
+      const btn = el('button', 'qtile'); btn.type = 'button';
+      const box = el('div', 'qbox'); const svg = qrSvg(t.url);
+      if (svg) { box.append(svg); btn.addEventListener('click', () => openQR(t.title, t.url)); btn.setAttribute('aria-label', t.title + ' QR 크게 보기'); }
+      else { box.textContent = 'QR을 불러오지 못했습니다'; btn.disabled = true; }
+      btn.append(box, el('b', '', t.title), el('small', '', t.sub)); grid.append(btn);
+    });
+  }
+
+  // ---------- 교안 미리보기 ----------
+  let curPv = 1;
+  const thumbs = $('#thumbs'), chaps = $('#chaps');
+  const thumbBtns = [];
+  for (let i = 1; i <= SLIDES; i++) {
+    const b = el('button', 'th'); b.type = 'button'; b.setAttribute('aria-label', `${i}쪽 미리보기`);
+    const img = el('img'); img.loading = 'lazy'; img.decoding = 'async'; img.width = 384; img.height = 216; img.alt = ''; img.src = `thumbs/t-${pad(i)}.jpg`;
+    b.append(img, el('span', '', String(i)));
+    b.addEventListener('click', () => setPv(i, true));
+    thumbs.append(b); thumbBtns.push(b);
+  }
+  const chipBtns = CHAPS.map(([p, n, name]) => {
+    const c = el('button', 'chip'); c.type = 'button';
+    if (n) c.append(el('i', '', n)); c.append(document.createTextNode(name));
+    c.addEventListener('click', () => setPv(p, true)); chaps.append(c); return [p, c];
+  });
+  function setPv(i, scroll) {
+    curPv = Math.max(1, Math.min(SLIDES, i));
+    const img = $('#pvImg'); img.src = `slides/s-${pad(curPv)}.jpg`; img.alt = `교안 ${curPv}쪽`;
+    $('#pv').setAttribute('aria-label', `교안 ${curPv}쪽 크게 보기`);
+    $('#pvCount').textContent = `${curPv} / ${SLIDES}`;
+    thumbBtns.forEach((b, k) => b.setAttribute('aria-current', k + 1 === curPv ? 'true' : 'false'));
+    let on = chipBtns[0][1]; chipBtns.forEach(([p, c]) => { if (p <= curPv) on = c; });
+    chipBtns.forEach(([, c]) => c.setAttribute('aria-current', c === on ? 'true' : 'false'));
+    if (scroll) { const t = thumbBtns[curPv - 1]; thumbs.scrollTo({ left: t.offsetLeft - thumbs.offsetLeft - 8, behavior: 'smooth' }); }
+    if (curPv < SLIDES) { const n = new Image(); n.src = `slides/s-${pad(curPv + 1)}.jpg`; }
+  }
+  $('#pvPrev').addEventListener('click', () => setPv(curPv - 1, true));
+  $('#pvNext').addEventListener('click', () => setPv(curPv + 1, true));
+  $('#pv').addEventListener('click', () => openViewer(curPv));
+  const dp = $('#deckPdf'); dp.href = FILES.pdf.path; dp.download = FILES.pdf.name;
+
+  // ---------- 크게 보기 ----------
+  const viewer = $('#viewer'), track = $('#track');
+  let built = false;
+  function buildSlides() {
+    if (built) return; built = true;
+    for (let i = 1; i <= SLIDES; i++) {
+      const d = el('div', 'slide'); const img = el('img'); img.loading = 'lazy'; img.decoding = 'async'; img.width = 1281; img.height = 720;
+      img.src = `slides/s-${pad(i)}.jpg`; img.alt = `교안 ${i}쪽`; d.append(img); track.append(d);
+    }
+  }
+  const cur = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+  function go(i, instant) { const k = Math.max(0, Math.min(SLIDES - 1, i)); track.scrollTo({ left: k * track.clientWidth, behavior: instant ? 'instant' : 'smooth' }); }
+  const vpad = $('#vpad'), vsur = $('#vsur');
+  vpad.href = LINKS.padlet; vsur.href = LINKS.survey;
+  function onScroll() { const k = cur() + 1; $('#vcount').textContent = `${k} / ${SLIDES}`; vpad.classList.toggle('on', ACT.padlet.includes(k)); vsur.classList.toggle('on', ACT.survey.includes(k)); }
+  track.addEventListener('scroll', onScroll, { passive: true });
+  let vFocus = null;
+  function openViewer(i) {
+    buildSlides(); vFocus = document.activeElement; viewer.hidden = false; document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => { go(i - 1, true); onScroll(); });
+    $('#vclose').focus();
+  }
+  function closeViewer() { const k = cur() + 1; viewer.hidden = true; document.body.style.overflow = ''; setPv(k, true); if (vFocus) vFocus.focus(); }
+  $('#vclose').addEventListener('click', closeViewer);
+  $('#vprev').addEventListener('click', () => go(cur() - 1));
+  $('#vnext').addEventListener('click', () => go(cur() + 1));
+  window.addEventListener('resize', () => { if (!viewer.hidden) go(cur(), true); });
+  document.addEventListener('keydown', (e) => {
+    if (!modal.hidden && e.key === 'Escape') { closeQR(); return; }
+    if (!viewer.hidden) {
+      if (e.key === 'Escape') closeViewer();
+      else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur() + 1); }
+      else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); go(cur() - 1); }
+    }
+  });
+
+  renderLinks(); renderMats(); renderTools(); renderQRs(); setPv(1, false);
+})();
+</script>
+</body>
+</html>
