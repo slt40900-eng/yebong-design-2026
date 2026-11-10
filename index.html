@@ -35,6 +35,11 @@ body { margin: 0; background-color: var(--ground); color: var(--chalk); font-fam
 h1 { margin: 6px 0 0; font-size: clamp(26px, 6.4vw, 38px); font-weight: 800; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance; }
 h1 em { font-style: normal; color: var(--amber); }
 h1 .nw, h1 em { white-space: nowrap; }
+.short-address { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin: 10px 0 0; }
+.short-address span { color: var(--chalk-dim); font-size: 13px; }
+.short-address a { color: var(--amber); font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; font-size: clamp(20px, 4.5vw, 24px); font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
+.short-address a:hover { color: var(--chalk); }
+.short-address a:focus-visible { outline: 2px solid var(--amber); outline-offset: 5px; border-radius: 2px; }
 .meta { margin: 10px 0 0; color: var(--chalk-dim); font-size: 15px; }
 .meta span + span::before { content: "·"; margin: 0 .5em; color: var(--chalk-faint); }
 .panel { border: 1px solid var(--chalk-faint); background: rgba(10, 45, 74, .72); }
@@ -269,6 +274,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   <header>
     <p class="eyebrow">2026 찾아가는 통합 설계 연수 · 예봉초 2회차</p>
     <h1><span class="nw">교육과정-수업-평가</span> <em>통합 설계</em> <span class="nw">10단계 실습</span></h1>
+    <p class="short-address"><span>연수 사이트 주소</span><a href="https://joo.is/예봉초연수">joo.is/예봉초연수</a></p>
     <p class="meta"><span>2026. 11. 11. 수요일 14:30~16:30</span><span>남양주예봉초등학교</span><span>강사 김영호</span></p>
   </header>
 
