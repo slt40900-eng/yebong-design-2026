@@ -135,15 +135,6 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 .igh i { font-style: normal; font-family: var(--mono); font-size: 12px; color: var(--amber); }
 .igh small { font-size: 12.5px; font-weight: 400; color: var(--chalk-dim); }
 :root { --z1: #a8dbe3; --z2: #7fc6d3; --z3: #59afc1; --z4: #3e97ab; --zo: #c6d6e2; --zb: rgba(230,240,248,.28); }
-.tl { display: grid; grid-template-columns: 10fr 40fr 5fr 20fr 30fr 15fr; gap: 3px; height: 16px; }
-.tl i { display: block; border-radius: 2px; }
-.tl .b { background: repeating-linear-gradient(135deg, var(--zb) 0 4px, transparent 4px 8px); border: 1px solid var(--zb); }
-.tends { display: flex; justify-content: space-between; margin-top: 4px; font-family: var(--mono); font-size: 12px; color: var(--chalk-dim); }
-.tlist { list-style: none; margin: 10px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 12px; }
-.tlist li { display: grid; grid-template-columns: 10px 1fr; gap: 8px; align-items: start; }
-.tlist li::before { content: ""; width: 10px; height: 10px; margin-top: 5px; border-radius: 2px; background: var(--c); }
-.tlist b { display: block; font-size: 14px; font-weight: 600; line-height: 1.35; }
-.tlist span { font-size: 12.5px; color: var(--chalk-dim); font-variant-numeric: tabular-nums; }
 .zones { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .zone { position: relative; display: flex; flex-direction: column; gap: 10px; padding: 12px 12px 14px; border: 1px solid var(--chalk-faint); border-top: 4px solid var(--zc); background: rgba(6, 26, 43, .55); }
 .zone:not(:last-child)::after { content: ""; position: absolute; top: 22px; right: -12px; width: 10px; height: 10px; border-top: 2px solid var(--amber); border-right: 2px solid var(--amber); transform: rotate(45deg); }
@@ -166,7 +157,6 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 @media (max-width: 640px) {
   .zones { grid-template-columns: 1fr 1fr; }
   .zone:nth-child(2)::after { display: none; }
-  .tlist { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 460px) {
   .beats { grid-template-columns: 1fr 1fr; }
@@ -230,23 +220,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     <div class="sec-h"><h2 id="h-path">오늘의 길</h2><p>내 단원으로 10단계를 걸어 봅니다</p></div>
     <div class="panel ig">
       <div>
-        <p class="igh"><i>A</i>두 시간의 흐름 <small>시간은 대략이에요</small></p>
-        <div class="tl" role="img" aria-label="14시 30분부터 16시 30분까지: 여는 장 10분, 영역 1 40분, 쉬는 시간 5분, 영역 2 20분, 영역 3 30분, 10단계와 나눔 15분">
-          <i style="background:var(--zo)"></i><i style="background:var(--z1)"></i><i class="b"></i><i style="background:var(--z2)"></i><i style="background:var(--z3)"></i><i style="background:var(--amber)"></i>
-        </div>
-        <div class="tends"><span>14:30</span><span>16:30</span></div>
-        <ol class="tlist">
-          <li style="--c:var(--zo)"><div><b>여는 장</b><span>14:30 · 10분</span></div></li>
-          <li style="--c:var(--z1)"><div><b>영역 1 · 1~4단계</b><span>14:40 · 40분 · 실습 2번</span></div></li>
-          <li style="--c:var(--zb)"><div><b>쉬는 시간</b><span>15:20 · 5분</span></div></li>
-          <li style="--c:var(--z2)"><div><b>영역 2 · 5~6단계</b><span>15:25 · 20분 · 실습 1번</span></div></li>
-          <li style="--c:var(--z3)"><div><b>영역 3 · 7~9단계</b><span>15:45 · 30분 · 실습 1번</span></div></li>
-          <li style="--c:var(--amber)"><div><b>10단계 · 학년군 나눔</b><span>16:15 · 15분</span></div></li>
-        </ol>
-      </div>
-
-      <div>
-        <p class="igh"><i>B</i>10단계 지도 <small>노란 표시가 오늘 직접 써 보는 단계</small></p>
+        <p class="igh"><i>A</i>10단계 지도 <small>노란 표시가 오늘 직접 써 보는 단계</small></p>
         <ol class="zones">
           <li class="zone" style="--zc:var(--z1)"><p class="zk">영역 1</p><h4>목적지를 세우다</h4>
             <ol class="st"><li><b>1</b>무엇을 가르칠까</li><li><b>2</b>왜 가르칠까</li><li><b>3</b>기대하는 학습 결과</li><li><b>4</b>배움의 증거</li></ol>
@@ -256,7 +230,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
             <div class="pr"><span>실습 ③ 5·6단계</span></div></li>
           <li class="zone" style="--zc:var(--z3)"><p class="zk">영역 3</p><h4>수업과 평가를 설계하다</h4>
             <ol class="st"><li><b>7</b>징검다리 · 전이 평가</li><li><b>8</b>차시 설계 · 탐구 질문</li><li><b>9</b>학습자 안내서</li></ol>
-            <div class="pr"><span>실습 ④ 7단계</span><span class="case">8·9단계는 사례로</span></div></li>
+            <div class="pr"><span>실습 ④ 7~9단계</span></div></li>
           <li class="zone" style="--zc:var(--z4)"><p class="zk">영역 4</p><h4>실행하고 성찰하다</h4>
             <ol class="st"><li><b>10</b>근거로 성찰하고 환류</li></ol>
             <div class="pr"><span class="case">사례로 살펴보기</span></div></li>
@@ -264,7 +238,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
       </div>
 
       <div>
-        <p class="igh"><i>C</i>단계마다 네 박자</p>
+        <p class="igh"><i>B</i>단계마다 네 박자</p>
         <ol class="beats">
           <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg><b>설명</b><span>이 단계에서 할 일과 내 안의 질문</span></li>
           <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg><b>사례</b><span>5학년 사회 · 2학년 국어</span></li>
@@ -329,7 +303,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 <script src="js/qrcode.js"></script>
 <script>
 (() => {
-  const SITE = "https://slt40900-eng.github.io/yebong-design-2026/";
+  const SITE = "https://yebong-design-2026.netlify.app";
   const SLIDES = 78;
   const LINKS = {"padlet": "https://padlet.com/slt40900/padlet-s0258lz8ni30gmwc948w", "survey": "https://docs.google.com/forms/d/e/1FAIpQLScWhUmcQonBxzBsIYMGpMKlG6xlQyS7yGuxpsrY0lGJtrIZig/viewform", "ncic": "https://www.ncic.go.kr/"};
   const FILES = {"form": {"path": "files/form-0628.hwpx", "name": "교육과정-수업-평가 통합설계 실습(양식)(0628).hwpx"}, "kor10h": {"path": "files/kor-10steps.hwpx", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).hwpx"}, "tg10h": {"path": "files/tg-10steps.hwpx", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).hwpx"}, "pdf": {"path": "files/yebong-3-4-deck.pdf", "name": "예봉초 2회차(3-4차시) 통합설계 실습 연수안_김영호.pdf"}, "kor10": {"path": "files/kor-10steps.pdf", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).pdf"}, "kortr": {"path": "files/kor-transfer.pdf", "name": "국어_전이를 위한 평가(GRASPS·논술형 수행평가지).pdf"}, "korjg": {"path": "files/kor-steppingstone.pdf", "name": "국어_징검다리 평가 예시(학생 결과물).pdf"}, "tg10": {"path": "files/tg-10steps.pdf", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).pdf"}, "tgtr": {"path": "files/tg-transfer.pdf", "name": "통합교과_전이를 위한 평가(GRASPS·논술형 평가).pdf"}, "annae": {"path": "files/gg-annae.pdf", "name": "초등 교육과정-수업-평가 통합 설계 안내서.pdf"}, "kwguide": {"path": "files/gg-keyword-guide.pdf", "name": "핵심어 핵심문장 도출 가이드(배포).pdf"}, "brick": {"path": "files/gg-thinking-brick.pdf", "name": "쌓고 연결하는 교실 속 사고 설계 도구 사고 블록_사고 브릭.pdf"}, "jaryo": {"path": "files/gg-inquiry-question.pdf", "name": "2025 초등 깊이있는 수업을 위한 질문기반 탐구수업 자료집.pdf"}};

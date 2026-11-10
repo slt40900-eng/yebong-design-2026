@@ -1,0 +1,17 @@
+# Netlify 설정: 빌드 없이 저장소 맨 위 폴더를 그대로 게시한다.
+[build]
+  publish = "."
+  command = ""
+
+# 저장소 관리용 문서는 사이트에서 보이지 않게
+[[redirects]]
+  from = "/README.md"
+  to = "/"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/CLAUDE.md"
+  to = "/"
+  status = 404
+  force = true
