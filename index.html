@@ -164,7 +164,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 }
 @media (max-width: 360px) { .zones { grid-template-columns: 1fr; } .zone::after { display: none; } }
 
-/* ── 교안 미리보기 ── */
+/* ── 교안 보기 ── */
 .dk { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 .chaps { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
 .chaps::-webkit-scrollbar { display: none; }
@@ -278,7 +278,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   </section>
 
   <section aria-labelledby="h-deck">
-    <div class="sec-h"><h2 id="h-deck">교안 미리보기</h2><p>화면을 누르면 크게 보여요</p></div>
+    <div class="sec-h"><h2 id="h-deck">교안 보기</h2><p>화면을 누르면 크게 보여요</p></div>
     <div class="panel dk">
       <div class="chaps" id="chaps" aria-label="장으로 바로 가기"></div>
       <button type="button" class="pv" id="pv" aria-label="교안 1쪽 크게 보기"><img id="pvImg" src="slides/s-01.jpg" width="1281" height="720" alt="교안 1쪽"><span class="zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg>크게 보기</span></button>
@@ -442,7 +442,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
         else h.textContent = it.title;
         t.append(h, el('p', '', it.sub));
         const bx = el('div', 'mbtns');
-        if (it.pv) { const b = el('button', 'btn', '미리보기'); b.type = 'button'; b.addEventListener('click', () => openDoc(it.pv, g.group, it)); bx.append(b); }
+        if (it.pv) { const b = el('button', 'btn', '보기'); b.type = 'button'; b.addEventListener('click', () => openDoc(it.pv, g.group, it)); bx.append(b); }
         it.btns.forEach((o) => {
           if (o.url) { const a = el('a', 'btn', o.label); a.href = o.url; a.target = '_blank'; a.rel = 'noopener'; bx.append(a); }
           else if (o.view) { const a = el('a', 'btn', o.label); a.href = FILES[o.view].path; a.target = '_blank'; a.rel = 'noopener'; bx.append(a); }
@@ -487,7 +487,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     });
   }
 
-  // ---------- 자료 미리보기 ----------
+  // ---------- 자료 보기 ----------
   const docv = $('#docv'), docPages = $('#docPages');
   let docFocus = null;
   function openDoc(key, group, it) {
@@ -507,12 +507,12 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   function closeDoc() { docv.hidden = true; document.body.style.overflow = ''; if (docFocus) docFocus.focus(); }
   $('#docClose').addEventListener('click', closeDoc);
 
-  // ---------- 교안 미리보기 ----------
+  // ---------- 교안 보기 ----------
   let curPv = 1;
   const thumbs = $('#thumbs'), chaps = $('#chaps');
   const thumbBtns = [];
   for (let i = 1; i <= SLIDES; i++) {
-    const b = el('button', 'th'); b.type = 'button'; b.setAttribute('aria-label', `${i}쪽 미리보기`);
+    const b = el('button', 'th'); b.type = 'button'; b.setAttribute('aria-label', `${i}쪽 보기`);
     const img = el('img'); img.loading = 'lazy'; img.decoding = 'async'; img.width = 384; img.height = 216; img.alt = ''; img.src = `thumbs/t-${pad(i)}.jpg`;
     b.append(img, el('span', '', String(i)));
     b.addEventListener('click', () => setPv(i, true));
