@@ -282,9 +282,9 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     <div class="panel dk">
       <div class="chaps" id="chaps" aria-label="장으로 바로 가기"></div>
       <button type="button" class="pv" id="pv" aria-label="교안 1쪽 크게 보기"><img id="pvImg" src="slides/s-01.jpg" width="1281" height="720" alt="교안 1쪽"><span class="zoom"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7"/></svg>크게 보기</span></button>
-      <div class="pvbar"><button type="button" class="btn ghost" id="pvPrev">이전</button><span id="pvCount">1 / 78</span><button type="button" class="btn ghost" id="pvNext">다음</button></div>
+      <div class="pvbar"><button type="button" class="btn ghost" id="pvPrev">이전</button><span id="pvCount">1 / 86</span><button type="button" class="btn ghost" id="pvNext">다음</button></div>
       <div class="thumbs" id="thumbs" aria-label="교안 쪽 목록"></div>
-      <div class="dkfoot"><a class="btn" id="deckPdf" href="#">교안 PDF 내려받기</a><span>78쪽 · 약 4MB · 인쇄하거나 보관하기</span></div>
+      <div class="dkfoot"><a class="btn" id="deckPdf" href="#">교안 PDF 내려받기</a><span>86쪽 · 약 4MB · 인쇄하거나 보관하기</span></div>
     </div>
   </section>
 
@@ -321,7 +321,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 </div>
 
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="교안 크게 보기">
-  <div class="vbar"><b>교안 · 2회차 3~4차시</b><span id="vcount">1 / 78</span><button type="button" class="btn ghost" id="vclose">닫기</button></div>
+  <div class="vbar"><b>교안 · 2회차 3~4차시</b><span id="vcount">1 / 86</span><button type="button" class="btn ghost" id="vclose">닫기</button></div>
   <div class="track" id="track"></div>
   <div class="vnav"><button type="button" class="btn ghost" id="vprev">이전</button><a class="btn ghost act" id="vpad" target="_blank" rel="noopener">패들렛</a><a class="btn ghost act" id="vsur" target="_blank" rel="noopener"><span class="wide">만족도&nbsp;</span>조사</a><button type="button" class="btn ghost" id="vnext">다음</button></div>
   <p class="vhint">밀어서 넘기거나 ← → 키를 누르세요. 휴대폰은 가로로 돌리면 크게 보입니다.</p>
@@ -331,12 +331,12 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 <script>
 (() => {
   const SITE = "https://yebong-design-2026.netlify.app";
-  const SLIDES = 78;
+  const SLIDES = 86;
   const LINKS = {"padlet": "https://padlet.com/slt40900/padlet-s0258lz8ni30gmwc948w", "survey": "https://docs.google.com/forms/d/e/1FAIpQLScWhUmcQonBxzBsIYMGpMKlG6xlQyS7yGuxpsrY0lGJtrIZig/viewform", "ncic": "https://www.ncic.go.kr/"};
   const FILES = {"form": {"path": "files/form-0628.hwpx", "name": "교육과정-수업-평가 통합설계 실습(양식)(0628).hwpx"}, "kor10h": {"path": "files/kor-10steps.hwpx", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).hwpx"}, "tg10h": {"path": "files/tg-10steps.hwpx", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).hwpx"}, "pdf": {"path": "files/yebong-3-4-deck.pdf", "name": "예봉초 2회차(3-4차시) 통합설계 실습 연수안_김영호.pdf"}, "kor10": {"path": "files/kor-10steps.pdf", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).pdf"}, "kortr": {"path": "files/kor-transfer.pdf", "name": "국어_전이를 위한 평가(GRASPS·논술형 수행평가지).pdf"}, "korjg": {"path": "files/kor-steppingstone.pdf", "name": "국어_징검다리 평가 예시(학생 결과물).pdf"}, "tg10": {"path": "files/tg-10steps.pdf", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).pdf"}, "tgtr": {"path": "files/tg-transfer.pdf", "name": "통합교과_전이를 위한 평가(GRASPS·논술형 평가).pdf"}, "annae": {"path": "files/gg-annae.pdf", "name": "초등 교육과정-수업-평가 통합 설계 안내서.pdf"}, "kwguide": {"path": "files/gg-keyword-guide.pdf", "name": "핵심어 핵심문장 도출 가이드(배포).pdf"}, "brick": {"path": "files/gg-thinking-brick.pdf", "name": "쌓고 연결하는 교실 속 사고 설계 도구 사고 블록_사고 브릭.pdf"}, "jaryo": {"path": "files/gg-inquiry-question.pdf", "name": "2025 초등 깊이있는 수업을 위한 질문기반 탐구수업 자료집.pdf"}};
   const PREV = {"kor10": 18, "kortr": 3, "korjg": 2, "tg10": 22, "tgtr": 6}, PREVH = {"kor10": 1555, "kortr": 1557, "korjg": 1557, "tg10": 1555, "tgtr": 1557}, PREVW = 1100;
-  const CHAPS = [[1, '', '표지'], [4, '00', '여는 장'], [10, '01', '목적지를 세우다'], [34, '02', '배움의 흐름'], [45, '03', '수업과 평가'], [68, '04', '실행과 성찰'], [72, '05', '학년군 나눔']];
-  const ACT = { padlet: [73], survey: [77] };
+  const CHAPS = [[1, '', '표지'], [4, '00', '여는 장'], [10, '01', '목적지를 세우다'], [36, '02', '배움의 흐름'], [48, '03', '수업과 평가'], [76, '04', '실행과 성찰'], [80, '05', '학년군 나눔']];
+  const ACT = { padlet: [81], survey: [85] };
   const MATS = [
     { group: '실습 양식 · 결과 올리기', items: [
       { title: '통합 설계 실습 양식(0628)', sub: '한글(.hwpx) · 오늘 채울 10단계 양식, 바로 고쳐 쓸 수 있어요', btns: [{ file: 'form', label: '한글', dl: true }] },
