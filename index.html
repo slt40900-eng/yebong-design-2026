@@ -202,10 +202,32 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 .mlist p { margin: 2px 0 0; font-size: 13.5px; color: var(--chalk-dim); }
 .mlist .btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
 .mbtns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-.btn.hw { background: transparent; color: var(--amber); }
-.btn.hw::before { content: ""; width: 14px; height: 14px; margin-right: 6px; background: currentColor; -webkit-mask: var(--dl) center / contain no-repeat; mask: var(--dl) center / contain no-repeat; }
+.btn.dl { background: transparent; color: var(--amber); }
+.btn.dl::before { content: ""; width: 14px; height: 14px; margin-right: 6px; background: currentColor; -webkit-mask: var(--dl) center / contain no-repeat; mask: var(--dl) center / contain no-repeat; }
 :root { --dl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 10l5 5 5-5M5 20h14'/%3E%3C/svg%3E"); }
 .viewer .vbar a.btn { min-height: 36px; font-size: 14px; }
+.tlink { font: inherit; color: inherit; background: none; border: 0; padding: 0; text-align: left; cursor: pointer; text-decoration: underline; text-decoration-color: var(--chalk-faint); text-underline-offset: 4px; }
+.tlink:hover { color: var(--amber); text-decoration-color: var(--amber); }
+.tlink:focus-visible, .qbox:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.docv { position: fixed; inset: 0; z-index: 60; display: flex; flex-direction: column; background: #061a2b; }
+.docv[hidden] { display: none; }
+.dbar { display: flex; align-items: center; gap: 10px; padding: 10px 16px; padding-top: max(10px, env(safe-area-inset-top)); border-bottom: 1px solid var(--chalk-faint); background: #0b2238; }
+.dtt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.dtt small { font-size: 12px; color: var(--amber); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dtt b { font-size: 15.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dacts { display: flex; gap: 6px; }
+.dbar .btn { min-height: 38px; padding: 0 14px; font-size: 14px; }
+.dpages { flex: 1; overflow-y: auto; padding: 16px 12px 40px; display: flex; flex-direction: column; align-items: center; gap: 14px; -webkit-overflow-scrolling: touch; }
+.dpages img { display: block; width: 100%; max-width: 880px; height: auto; background: #fff; box-shadow: 0 2px 14px rgba(0,0,0,.45); }
+@media (max-width: 560px) { .dacts .btn { padding: 0 10px; } .dtt small { display: none; } .dtt b { white-space: normal; font-size: 14px; line-height: 1.3; } }
+.qrgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 560px) { .qrgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.qtile { cursor: default; gap: 6px; min-width: 0; }
+.qtile .btn { margin-top: auto !important; }
+.qtile .qbox { border: 0; cursor: zoom-in; width: 100%; margin-bottom: 4px; }
+.qtile .qsub { font-size: 12.5px; color: var(--chalk-dim); line-height: 1.35; }
+.qtile .qurl { display: block; font-family: var(--mono); font-size: 11px; color: var(--chalk-dim); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qtile .btn { margin-top: 4px; min-height: 36px; padding: 0 12px; font-size: 13.5px; width: 100%; }
 </style>
 </head>
 <body>
@@ -277,7 +299,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   </section>
 
   <section aria-labelledby="h-qr">
-    <div class="sec-h"><h2 id="h-qr">QR 크게 띄우기</h2><p>강의 화면에 띄우기</p></div>
+    <div class="sec-h"><h2 id="h-qr">QR코드 및 주소 링크</h2><p>QR을 누르면 크게, 버튼을 누르면 바로 열려요</p></div>
     <div class="qrgrid" id="qrgrid"></div>
   </section>
 
@@ -291,6 +313,11 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     <div class="big" id="qrBig"></div>
     <p class="url" id="qrUrl"></p>
   </div>
+</div>
+
+<div class="docv" id="docv" hidden role="dialog" aria-modal="true" aria-labelledby="docTitle">
+  <div class="dbar"><div class="dtt"><small id="docGroup"></small><b id="docTitle"></b></div><div class="dacts" id="docActs"></div><button type="button" class="btn ghost" id="docClose">닫기</button></div>
+  <div class="dpages" id="docPages"></div>
 </div>
 
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="교안 크게 보기">
@@ -307,26 +334,28 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   const SLIDES = 78;
   const LINKS = {"padlet": "https://padlet.com/slt40900/padlet-s0258lz8ni30gmwc948w", "survey": "https://docs.google.com/forms/d/e/1FAIpQLScWhUmcQonBxzBsIYMGpMKlG6xlQyS7yGuxpsrY0lGJtrIZig/viewform", "ncic": "https://www.ncic.go.kr/"};
   const FILES = {"form": {"path": "files/form-0628.hwpx", "name": "교육과정-수업-평가 통합설계 실습(양식)(0628).hwpx"}, "kor10h": {"path": "files/kor-10steps.hwpx", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).hwpx"}, "tg10h": {"path": "files/tg-10steps.hwpx", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).hwpx"}, "pdf": {"path": "files/yebong-3-4-deck.pdf", "name": "예봉초 2회차(3-4차시) 통합설계 실습 연수안_김영호.pdf"}, "kor10": {"path": "files/kor-10steps.pdf", "name": "완성 예시1_국어_2학년_자신의 생각을 표현해요(10단계).pdf"}, "kortr": {"path": "files/kor-transfer.pdf", "name": "국어_전이를 위한 평가(GRASPS·논술형 수행평가지).pdf"}, "korjg": {"path": "files/kor-steppingstone.pdf", "name": "국어_징검다리 평가 예시(학생 결과물).pdf"}, "tg10": {"path": "files/tg-10steps.pdf", "name": "완성 예시2_통합교과_2학년_질문으로 걷는 우리 마을(10단계).pdf"}, "tgtr": {"path": "files/tg-transfer.pdf", "name": "통합교과_전이를 위한 평가(GRASPS·논술형 평가).pdf"}, "annae": {"path": "files/gg-annae.pdf", "name": "초등 교육과정-수업-평가 통합 설계 안내서.pdf"}, "kwguide": {"path": "files/gg-keyword-guide.pdf", "name": "핵심어 핵심문장 도출 가이드(배포).pdf"}, "brick": {"path": "files/gg-thinking-brick.pdf", "name": "쌓고 연결하는 교실 속 사고 설계 도구 사고 블록_사고 브릭.pdf"}, "jaryo": {"path": "files/gg-inquiry-question.pdf", "name": "2025 초등 깊이있는 수업을 위한 질문기반 탐구수업 자료집.pdf"}};
+  const PREV = {"kor10": 18, "kortr": 3, "korjg": 2, "tg10": 22, "tgtr": 6}, PREVH = {"kor10": 1555, "kortr": 1557, "korjg": 1557, "tg10": 1555, "tgtr": 1557}, PREVW = 1100;
   const CHAPS = [[1, '', '표지'], [4, '00', '여는 장'], [10, '01', '목적지를 세우다'], [34, '02', '배움의 흐름'], [45, '03', '수업과 평가'], [68, '04', '실행과 성찰'], [72, '05', '학년군 나눔']];
   const ACT = { padlet: [73], survey: [77] };
   const MATS = [
-    { group: '실습 양식', items: [
-      { title: '통합 설계 실습 양식(0628)', sub: '한글(.hwpx) · 오늘 채울 10단계 양식, 바로 고쳐 쓸 수 있어요', btns: [{ file: 'form', label: '한글', hw: true }] },
+    { group: '실습 양식 · 결과 올리기', items: [
+      { title: '통합 설계 실습 양식(0628)', sub: '한글(.hwpx) · 오늘 채울 10단계 양식, 바로 고쳐 쓸 수 있어요', btns: [{ file: 'form', label: '한글', dl: true }] },
+      { title: '학년군 설계 나눔 (패들렛)', sub: '우리 학년군 칸에 학년·단원 + 핵심 문장 한 줄, 실습 양식 사진만 올려도 좋아요', btns: [{ url: LINKS.padlet, label: '올리러 가기' }] },
     ] },
     { group: '완성 예시 ① 국어 · 2학년 「6. 자신의 생각을 표현해요」', items: [
-      { title: '10단계 완성 예시', sub: 'PDF 18쪽 · 한글(.hwpx) · 1~10단계를 모두 채운 설계안', btns: [{ file: 'kor10', label: 'PDF' }, { file: 'kor10h', label: '한글', hw: true }] },
-      { title: '전이를 위한 평가', sub: 'PDF 3쪽 · 3.2MB · GRASPS + 논술형 수행평가지', btns: [{ file: 'kortr', label: 'PDF' }] },
-      { title: '징검다리 평가 예시', sub: 'PDF 2쪽 · 1.5MB · 평가 과제 · 루브릭 · 학생 결과물', btns: [{ file: 'korjg', label: 'PDF' }] },
+      { title: '10단계 완성 예시', sub: '18쪽 · 1~10단계를 모두 채운 설계안', pv: 'kor10', btns: [{ file: 'kor10', label: 'PDF', dl: true }, { file: 'kor10h', label: '한글', dl: true }] },
+      { title: '전이를 위한 평가', sub: '3쪽 · GRASPS + 논술형 수행평가지', pv: 'kortr', btns: [{ file: 'kortr', label: 'PDF', dl: true }] },
+      { title: '징검다리 평가 예시', sub: '2쪽 · 평가 과제 · 루브릭 · 학생 결과물', pv: 'korjg', btns: [{ file: 'korjg', label: 'PDF', dl: true }] },
     ] },
     { group: '완성 예시 ② 통합교과 · 2학년 「질문으로 걷는 우리 마을」', items: [
-      { title: '10단계 완성 예시', sub: 'PDF 22쪽 · 한글(.hwpx) · 징검다리 평가 1~3과 루브릭 포함', btns: [{ file: 'tg10', label: 'PDF' }, { file: 'tg10h', label: '한글', hw: true }] },
-      { title: '전이를 위한 평가', sub: 'PDF 6쪽 · 0.8MB · GRASPS + 논술형 평가(문항 · 예시 답안 · 채점 기준표)', btns: [{ file: 'tgtr', label: 'PDF' }] },
+      { title: '10단계 완성 예시', sub: '22쪽 · 징검다리 평가 1~3과 루브릭 포함', pv: 'tg10', btns: [{ file: 'tg10', label: 'PDF', dl: true }, { file: 'tg10h', label: '한글', dl: true }] },
+      { title: '전이를 위한 평가', sub: '6쪽 · GRASPS + 논술형 평가(문항 · 예시 답안 · 채점 기준표)', pv: 'tgtr', btns: [{ file: 'tgtr', label: 'PDF', dl: true }] },
     ] },
     { group: '경기도교육청 장학자료', items: [
-      { title: '초등 교육과정-수업-평가 통합 설계 안내서', sub: 'PDF 59쪽 · 7.2MB · 10단계 전체 안내', btns: [{ file: 'annae', label: '내려받기' }] },
-      { title: '핵심어 · 핵심 문장 도출 가이드', sub: 'PDF 44쪽 · 1.6MB · 1단계', btns: [{ file: 'kwguide', label: '내려받기' }] },
-      { title: '사고 블록 & 사고 브릭', sub: 'PDF 80쪽 · 8.9MB · 7단계 루브릭 · 8단계 차시 설계', btns: [{ file: 'brick', label: '내려받기' }] },
-      { title: '질문기반 탐구수업 자료집', sub: 'PDF 72쪽 · 8.4MB · 핵심 질문 · 탐구 질문', btns: [{ file: 'jaryo', label: '내려받기' }] },
+      { title: '초등 교육과정-수업-평가 통합 설계 안내서', sub: 'PDF 59쪽 · 7.2MB · 10단계 전체 안내', btns: [{ view: 'annae', label: '보기' }, { file: 'annae', label: 'PDF', dl: true }] },
+      { title: '핵심어 · 핵심 문장 도출 가이드', sub: 'PDF 44쪽 · 1.6MB · 1단계', btns: [{ view: 'kwguide', label: '보기' }, { file: 'kwguide', label: 'PDF', dl: true }] },
+      { title: '사고 블록 & 사고 브릭', sub: 'PDF 80쪽 · 8.9MB · 7단계 루브릭 · 8단계 차시 설계', btns: [{ view: 'brick', label: '보기' }, { file: 'brick', label: 'PDF', dl: true }] },
+      { title: '질문기반 탐구수업 자료집', sub: 'PDF 72쪽 · 8.4MB · 핵심 질문 · 탐구 질문', btns: [{ view: 'jaryo', label: '보기' }, { file: 'jaryo', label: 'PDF', dl: true }] },
     ] },
   ];
   const TOOLS = [
@@ -407,9 +436,18 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     MATS.forEach((g) => {
       const sec = el('div', 'panel mgroup'); const ul = el('ul', 'mlist');
       g.items.forEach((it) => {
-        const li = el('li'); const t = el('div', 'mt'); t.append(el('h4', '', it.title), el('p', '', it.sub));
+        const li = el('li'); const t = el('div', 'mt');
+        const h = el('h4');
+        if (it.pv) { const tb = el('button', 'tlink', it.title); tb.type = 'button'; tb.addEventListener('click', () => openDoc(it.pv, g.group, it)); h.append(tb); }
+        else h.textContent = it.title;
+        t.append(h, el('p', '', it.sub));
         const bx = el('div', 'mbtns');
-        it.btns.forEach((o) => bx.append(fileLink(o.file, o.label, o.hw ? 'btn hw' : 'btn')));
+        if (it.pv) { const b = el('button', 'btn', '미리보기'); b.type = 'button'; b.addEventListener('click', () => openDoc(it.pv, g.group, it)); bx.append(b); }
+        it.btns.forEach((o) => {
+          if (o.url) { const a = el('a', 'btn', o.label); a.href = o.url; a.target = '_blank'; a.rel = 'noopener'; bx.append(a); }
+          else if (o.view) { const a = el('a', 'btn', o.label); a.href = FILES[o.view].path; a.target = '_blank'; a.rel = 'noopener'; bx.append(a); }
+          else bx.append(fileLink(o.file, o.label, o.dl ? 'btn dl' : 'btn'));
+        });
         li.append(t, bx); ul.append(li);
       });
       sec.append(el('h3', '', g.group), ul); box.append(sec);
@@ -429,19 +467,45 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   }
   function renderQRs() {
     const grid = $('#qrgrid');
-    [{ title: '이 페이지', sub: SITE.replace(/^https:\/\//, ''), url: SITE },
+    [{ title: '이 페이지', sub: '연수 자료 모음', url: SITE },
      { title: '학년군 설계 나눔', sub: '패들렛', url: LINKS.padlet },
      { title: '연수 만족도 조사', sub: '구글 설문', url: LINKS.survey },
      { title: '교육과정 원문 찾기', sub: 'NCIC', url: LINKS.ncic },
      { title: '이음 · 통합설계 10단계', sub: 'AI와 함께 10단계 설계안 작성', url: TOOLS[0].url },
-     { title: '사고루틴 추천 웹앱', sub: '차시별 사고루틴·질문기법', url: TOOLS[1].url }].forEach((t) => {
-      const btn = el('button', 'qtile'); btn.type = 'button';
-      const box = el('div', 'qbox'); const svg = qrSvg(t.url);
-      if (svg) { box.append(svg); btn.addEventListener('click', () => openQR(t.title, t.url)); btn.setAttribute('aria-label', t.title + ' QR 크게 보기'); }
-      else { box.textContent = 'QR을 불러오지 못했습니다'; btn.disabled = true; }
-      btn.append(box, el('b', '', t.title), el('small', '', t.sub)); grid.append(btn);
+     { title: '사고루틴 추천 웹앱', sub: '차시별 사고루틴·질문기법', url: TOOLS[1].url }].forEach((t, i) => {
+      const tile = el('div', 'qtile');
+      const box = el('button', 'qbox'); box.type = 'button'; const svg = qrSvg(t.url);
+      if (svg) { box.append(svg); box.addEventListener('click', () => openQR(t.title, t.url)); box.setAttribute('aria-label', t.title + ' QR 크게 보기'); }
+      else { box.textContent = 'QR을 불러오지 못했습니다'; box.disabled = true; }
+      const addr = el('small', 'qurl', t.url.replace(/^https:\/\//, '').replace(/\/$/, '')); addr.title = t.url;
+      let go;
+      if (i === 0) {
+        go = el('button', 'btn ghost', '주소 복사'); go.type = 'button';
+        go.addEventListener('click', async () => { try { await navigator.clipboard.writeText(t.url); go.textContent = '복사했어요'; } catch (_) { go.textContent = '복사 안 됨'; } setTimeout(() => { go.textContent = '주소 복사'; }, 1800); });
+      } else { go = el('a', 'btn', '바로 가기'); go.href = t.url; go.target = '_blank'; go.rel = 'noopener'; }
+      tile.append(box, el('b', '', t.title), el('span', 'qsub', t.sub), addr, go); grid.append(tile);
     });
   }
+
+  // ---------- 자료 미리보기 ----------
+  const docv = $('#docv'), docPages = $('#docPages');
+  let docFocus = null;
+  function openDoc(key, group, it) {
+    docFocus = document.activeElement;
+    $('#docGroup').textContent = group;
+    $('#docTitle').textContent = `${it.title} · ${PREV[key]}쪽`;
+    const acts = $('#docActs'); acts.replaceChildren();
+    it.btns.forEach((o) => { if (o.file) acts.append(fileLink(o.file, o.label, 'btn dl')); });
+    docPages.replaceChildren();
+    for (let i = 1; i <= PREV[key]; i++) {
+      const img = el('img'); img.loading = i <= 2 ? 'eager' : 'lazy'; img.decoding = 'async';
+      img.width = PREVW; img.height = PREVH[key]; img.alt = `${it.title} ${i}쪽`; img.src = `previews/${key}/p-${pad(i)}.jpg`;
+      docPages.append(img);
+    }
+    docv.hidden = false; docPages.scrollTop = 0; document.body.style.overflow = 'hidden'; $('#docClose').focus();
+  }
+  function closeDoc() { docv.hidden = true; document.body.style.overflow = ''; if (docFocus) docFocus.focus(); }
+  $('#docClose').addEventListener('click', closeDoc);
 
   // ---------- 교안 미리보기 ----------
   let curPv = 1;
@@ -504,6 +568,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
   window.addEventListener('resize', () => { if (!viewer.hidden) go(cur(), true); });
   document.addEventListener('keydown', (e) => {
     if (!modal.hidden && e.key === 'Escape') { closeQR(); return; }
+    if (!docv.hidden && e.key === 'Escape') { closeDoc(); return; }
     if (!viewer.hidden) {
       if (e.key === 'Escape') closeViewer();
       else if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); go(cur() + 1); }
