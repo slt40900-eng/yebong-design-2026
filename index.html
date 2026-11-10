@@ -246,6 +246,18 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 @media (max-width: 560px) { .qrgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 .qtile { cursor: default; gap: 6px; min-width: 0; }
 .qtile .btn { margin-top: auto !important; }
+/* 넓은 화면(노트북 · 프로젝터): 폭을 넓히고 칸을 나란히 */
+.wrap { max-width: 1200px; }
+@media (min-width: 1000px) {
+  .dk { display: grid; grid-template-columns: minmax(0, 1fr) 300px; grid-template-areas: "chaps chaps" "pv thumbs" "bar thumbs" "foot foot"; column-gap: 14px; row-gap: 12px; }
+  .chaps { grid-area: chaps; } .pv { grid-area: pv; } .pvbar { grid-area: bar; } .dkfoot { grid-area: foot; }
+  .thumbs { grid-area: thumbs; contain: size; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-content: start; overflow-x: hidden; overflow-y: auto; scroll-snap-type: y proximity; padding: 2px 4px 2px 2px; }
+  .th { width: 100%; }
+  .mats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .qrgrid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+}
 .qtile .qbox { border: 0; cursor: zoom-in; width: 100%; margin-bottom: 4px; }
 .qtile .qsub { font-size: 12.5px; color: var(--chalk-dim); line-height: 1.35; }
 .qtile .qurl { display: block; font-family: var(--mono); font-size: 11px; color: var(--chalk-dim); opacity: .8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -568,6 +580,12 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     if (n) c.append(el('i', '', n)); c.append(document.createTextNode(name));
     c.addEventListener('click', () => setPv(p, true)); chaps.append(c); return [p, c];
   });
+  function revealThumb(smooth) {
+    const t = thumbBtns[curPv - 1], r = t.getBoundingClientRect(), c = thumbs.getBoundingClientRect();
+    const b = smooth ? 'smooth' : 'instant';
+    if (getComputedStyle(thumbs).display === 'grid') thumbs.scrollTo({ top: thumbs.scrollTop + r.top - c.top - 8, behavior: b });
+    else thumbs.scrollTo({ left: thumbs.scrollLeft + r.left - c.left - 8, behavior: b });
+  }
   function setPv(i, scroll) {
     curPv = Math.max(1, Math.min(SLIDES, i));
     const img = $('#pvImg'); img.src = `slides/s-${pad(curPv)}.jpg`; img.alt = `교안 ${curPv}쪽`;
@@ -576,7 +594,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     thumbBtns.forEach((b, k) => b.setAttribute('aria-current', k + 1 === curPv ? 'true' : 'false'));
     let on = chipBtns[0][1]; chipBtns.forEach(([p, c]) => { if (p <= curPv) on = c; });
     chipBtns.forEach(([, c]) => c.setAttribute('aria-current', c === on ? 'true' : 'false'));
-    if (scroll) { const t = thumbBtns[curPv - 1]; thumbs.scrollTo({ left: t.offsetLeft - thumbs.offsetLeft - 8, behavior: 'smooth' }); }
+    if (scroll) revealThumb(true);
     if (curPv < SLIDES) { const n = new Image(); n.src = `slides/s-${pad(curPv + 1)}.jpg`; }
   }
   $('#pvPrev').addEventListener('click', () => setPv(curPv - 1, true));
@@ -635,7 +653,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
       const top = $('header').getBoundingClientRect().bottom + window.scrollY;
       if (window.scrollY > top) window.scrollTo({ top, behavior: 'instant' });
     }
-    if (id === 'deck') { const t = thumbBtns[curPv - 1]; thumbs.scrollLeft = Math.max(0, t.offsetLeft - thumbs.offsetLeft - 8); }
+    if (id === 'deck') revealThumb(false);
   }
   window.addEventListener('hashchange', () => showTab(location.hash.slice(1), true));
   tabsEl.addEventListener('keydown', (e) => {
