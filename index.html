@@ -128,7 +128,26 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 .foot { margin: 0; font-size: 13px; color: var(--chalk-dim); }
 @media (prefers-reduced-motion: no-preference) { .track { scroll-behavior: smooth; } }
 
-.wrap { gap: 26px; }
+.wrap { gap: 22px; }
+.tabp { display: flex; flex-direction: column; gap: 26px; }
+.tabs { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; display: flex; gap: 6px; padding: 10px 0; margin: -6px 0 -4px; background: var(--ground); border-bottom: 1px solid var(--chalk-faint); overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tabs a { flex: 1 0 auto; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid var(--chalk-faint); color: var(--chalk-dim); font-size: 15px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.tabs a:hover { color: var(--chalk); border-color: var(--chalk-dim); }
+.tabs a[aria-selected="true"] { background: var(--amber); border-color: var(--amber); color: var(--on-amber); }
+.tabs a:focus-visible, .nexts a:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+.nexts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.nexts a { display: flex; flex-direction: column; gap: 2px; padding: 14px 16px; border: 1px solid var(--chalk-faint); background: rgba(10, 45, 74, .72); color: var(--chalk); text-decoration: none; }
+.nexts a b { font-size: 16px; font-weight: 600; }
+.nexts a b::after { content: " →"; color: var(--amber); }
+.nexts a span { font-size: 13px; color: var(--chalk-dim); }
+.nexts a:hover { border-color: var(--amber); }
+@media (max-width: 560px) {
+  .tabs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px; overflow: visible; }
+  .tabs a { min-width: 0; min-height: 40px; padding: 0 4px; border-radius: 10px; font-size: 13px; }
+  .nexts { grid-template-columns: 1fr; }
+}
+
 /* ── 오늘의 길: 인포그래픽 ── */
 .ig { padding: 16px; display: flex; flex-direction: column; gap: 20px; }
 .igh { margin: 0 0 10px; display: flex; align-items: baseline; gap: 8px; font-size: 14px; font-weight: 600; }
@@ -152,7 +171,9 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 .beat svg { width: 30px; height: 30px; stroke: var(--amber); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .beat b { font-size: 15px; font-weight: 600; }
 .beat span { font-size: 12.5px; line-height: 1.4; color: var(--chalk-dim); }
-.bring { margin: 0; padding-top: 14px; font-size: 14px; color: var(--chalk-dim); border-top: 1px solid var(--chalk-faint); }
+.bring { margin: 0; padding-top: 14px; font-size: 14px; color: var(--chalk-dim); border-top: 1px solid var(--chalk-faint); display: flex; align-items: center; justify-content: space-between; gap: 10px 14px; flex-wrap: wrap; }
+.bring p { margin: 0; min-width: 0; }
+.bring .btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
 .bring b { color: var(--chalk); font-weight: 600; }
 @media (max-width: 640px) {
   .zones { grid-template-columns: 1fr 1fr; }
@@ -202,6 +223,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
 .mlist p { margin: 2px 0 0; font-size: 13.5px; color: var(--chalk-dim); }
 .mlist .btn { min-height: 40px; padding: 0 14px; font-size: 14px; }
 .mbtns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+@media (max-width: 480px) { .mlist li { grid-template-columns: 1fr; gap: 8px; } .mbtns { justify-content: flex-start; } }
 .btn.dl { background: transparent; color: var(--amber); }
 .btn.dl::before { content: ""; width: 14px; height: 14px; margin-right: 6px; background: currentColor; -webkit-mask: var(--dl) center / contain no-repeat; mask: var(--dl) center / contain no-repeat; }
 :root { --dl: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 10l5 5 5-5M5 20h14'/%3E%3C/svg%3E"); }
@@ -238,6 +260,15 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     <p class="meta"><span>2026. 11. 11. 수요일 14:30~16:30</span><span>남양주예봉초등학교</span><span>강사 김영호</span></p>
   </header>
 
+  <nav class="tabs" role="tablist" aria-label="연수 자료 분류">
+    <a role="tab" id="t-path" href="#path" aria-controls="p-path">오늘의 길</a>
+    <a role="tab" id="t-deck" href="#deck" aria-controls="p-deck">교안 보기</a>
+    <a role="tab" id="t-mats" href="#mats" aria-controls="p-mats">실습 자료</a>
+    <a role="tab" id="t-links" href="#links" aria-controls="p-links">링크·도구</a>
+    <a role="tab" id="t-qr" href="#qr" aria-controls="p-qr">QR코드</a>
+  </nav>
+
+  <div class="tabp" id="p-path" role="tabpanel" aria-labelledby="t-path">
   <section aria-labelledby="h-path">
     <div class="sec-h"><h2 id="h-path">오늘의 길</h2><p>내 단원으로 10단계를 걸어 봅니다</p></div>
     <div class="panel ig">
@@ -268,15 +299,17 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
           <li class="beat"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12l3 3 5-6"/></svg><b>점검</b><span>짝 · 모둠이 점검 질문으로</span></li>
         </ol>
       </div>
-      <p class="bring"><b>준비해 주세요</b> · 함께 설계할 단원 하나(교과서 · 지도서), 아래 실습 양식(한글)</p>
+      <div class="bring"><p><b>준비해 주세요</b> · 함께 설계할 단원 하나(교과서 · 지도서), 실습 양식(한글)</p><a class="btn dl" id="bringForm" href="#">실습 양식 받기</a></div>
     </div>
   </section>
+  <div class="nexts" aria-label="다른 탭으로">
+    <a href="#deck"><b>교안 보기</b><span>86쪽 · 누르면 크게</span></a>
+    <a href="#mats"><b>실습 자료</b><span>한글 양식 · 완성 예시</span></a>
+    <a href="#links"><b>링크 · 도구</b><span>패들렛 · 만족도 조사</span></a>
+  </div>
+  </div>
 
-  <section aria-labelledby="h-links">
-    <div class="sec-h"><h2 id="h-links">오늘의 링크</h2><p>QR을 누르면 크게 보여요</p></div>
-    <ul class="links" id="links"></ul>
-  </section>
-
+  <div class="tabp" id="p-deck" role="tabpanel" aria-labelledby="t-deck" hidden>
   <section aria-labelledby="h-deck">
     <div class="sec-h"><h2 id="h-deck">교안 보기</h2><p>화면을 누르면 크게 보여요</p></div>
     <div class="panel dk">
@@ -287,21 +320,33 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
       <div class="dkfoot"><a class="btn" id="deckPdf" href="#">교안 PDF 내려받기</a><span>86쪽 · 약 4MB · 인쇄하거나 보관하기</span></div>
     </div>
   </section>
+  </div>
 
+  <div class="tabp" id="p-mats" role="tabpanel" aria-labelledby="t-mats" hidden>
   <section aria-labelledby="h-mats">
-    <div class="sec-h"><h2 id="h-mats">실습 자료</h2><p>누르면 바로 내려받아요</p></div>
-    <div class="mats" id="mats"></div>
+    <div class="sec-h"><h2 id="h-mats">실습 자료</h2><p>[보기]는 바로 열리고, 한글 · PDF는 내려받아요</p></div>
+    <div class="mats" id="matlist"></div>
+  </section>
+  </div>
+
+  <div class="tabp" id="p-links" role="tabpanel" aria-labelledby="t-links" hidden>
+  <section aria-labelledby="h-links">
+    <div class="sec-h"><h2 id="h-links">오늘의 링크</h2><p>QR을 누르면 크게 보여요</p></div>
+    <ul class="links" id="linklist"></ul>
   </section>
 
   <section aria-labelledby="h-tool">
     <div class="sec-h"><h2 id="h-tool">함께 쓰면 좋은 도구</h2><p>원하시는 분만 써 보세요</p></div>
     <div class="tools" id="tools"></div>
   </section>
+  </div>
 
+  <div class="tabp" id="p-qr" role="tabpanel" aria-labelledby="t-qr" hidden>
   <section aria-labelledby="h-qr">
     <div class="sec-h"><h2 id="h-qr">QR코드 및 주소 링크</h2><p>QR을 누르면 크게, 버튼을 누르면 바로 열려요</p></div>
     <div class="qrgrid" id="qrgrid"></div>
   </section>
+  </div>
 
   <p class="foot">한글(.hwpx) 파일은 누르면 바로 내려받아집니다. 한글에서 열어 그대로 고쳐 쓰면 됩니다.</p>
 </div>
@@ -420,7 +465,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     { title: '연수 만족도 조사', sub: '연수를 마치며 2~3분', url: LINKS.survey, cta: '응답' },
   ];
   function renderLinks() {
-    const ul = $('#links');
+    const ul = $('#linklist');
     ITEMS.forEach((it, i) => {
       const li = el('li', 'panel link');
       li.append(el('span', 'num', pad(i + 1)));
@@ -432,7 +477,7 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     });
   }
   function renderMats() {
-    const box = $('#mats');
+    const box = $('#matlist');
     MATS.forEach((g) => {
       const sec = el('div', 'panel mgroup'); const ul = el('ul', 'mlist');
       g.items.forEach((it) => {
@@ -576,7 +621,33 @@ video { display: block; width: 100%; max-width: 100%; max-height: calc(100svh - 
     }
   });
 
+  // ---------- 탭 ----------
+  const TABS = ['path', 'deck', 'mats', 'links', 'qr'];
+  const tabsEl = $('.tabs');
+  function showTab(id, jump) {
+    if (!TABS.includes(id)) id = 'path';
+    TABS.forEach((t) => {
+      const on = t === id;
+      $('#p-' + t).hidden = !on;
+      const a = $('#t-' + t); a.setAttribute('aria-selected', on ? 'true' : 'false'); a.tabIndex = on ? 0 : -1;
+    });
+    if (jump) {
+      const top = $('header').getBoundingClientRect().bottom + window.scrollY;
+      if (window.scrollY > top) window.scrollTo({ top, behavior: 'instant' });
+    }
+    if (id === 'deck') { const t = thumbBtns[curPv - 1]; thumbs.scrollLeft = Math.max(0, t.offsetLeft - thumbs.offsetLeft - 8); }
+  }
+  window.addEventListener('hashchange', () => showTab(location.hash.slice(1), true));
+  tabsEl.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    const i = TABS.indexOf(location.hash.slice(1) || 'path');
+    const n = TABS[(i + (e.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length];
+    e.preventDefault(); location.hash = n; $('#t-' + n).focus();
+  });
+  const bf = $('#bringForm'); bf.href = FILES.form.path; bf.download = FILES.form.name;
+
   renderLinks(); renderMats(); renderTools(); renderQRs(); setPv(1, false);
+  showTab(location.hash.slice(1), false);
 })();
 </script>
 </body>

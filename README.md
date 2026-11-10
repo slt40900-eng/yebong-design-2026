@@ -7,7 +7,7 @@
 - 검색 제외: `index.html`의 `noindex` 메타, `robots.txt`, `_headers`(Netlify 전용).
 
 ## 폴더
-- `index.html` — 페이지 전체(글 · 스타일 · 스크립트). 링크와 자료 목록은 스크립트 맨 위 `LINKS`, `FILES`, `MATS`에 있습니다.
+- `index.html` — 페이지 전체(글 · 스타일 · 스크립트). 탭 다섯 개(오늘의 길 `#path` · 교안 보기 `#deck` · 실습 자료 `#mats` · 링크·도구 `#links` · QR코드 `#qr`)로 나뉘고, 주소 끝의 `#이름`으로 해당 탭이 바로 열립니다. 링크와 자료 목록은 스크립트 맨 위 `LINKS`, `FILES`, `MATS`에 있습니다.
 - `files/` — 내려받는 한글(.hwpx) · PDF. 내려받을 때 이름은 `FILES`의 `name`.
 - `previews/` — 완성 예시 · 전이 평가 · 징검다리 예시 PDF의 쪽 그림(보기 창에서 보여 줌, 폭 1100px).
 - `slides/`, `thumbs/` — 교안 쪽 그림(크게 보기 1281×720, 작은 그림 384×216). 교안 PDF에서 다시 만듭니다.
